@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+chromadb
+langchain
+langchain-community
+langchain-openai
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+pypdf
+docx2txt
+openai

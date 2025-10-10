@@ -10,8 +10,9 @@ class Settings(BaseSettings):
 
     chroma_persist_directory: str = "./chroma_db"
 
-    # Model configuration for free local LLM
-    model_name: str = os.getenv("MODEL_NAME", "llama3")
+    # Model configuration for LLM
+    openai_api_key: str = os.getenv("OPENAI_API_KEY")
+    model_name: str = os.getenv("MODEL_NAME", "gpt-3.5-turbo")
 
     # Dummy users for demo
     users: Dict[str, Dict[str, str]] = {

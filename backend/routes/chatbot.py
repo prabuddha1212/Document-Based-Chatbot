@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
-from backend.routes.auth import get_current_user
-from backend.models import User, UserRole, QueryRequest, QueryResponse
-from backend.config import settings
+from .auth import get_current_user
+from models import User, UserRole, QueryRequest, QueryResponse
+from config import settings
 from langchain.chains import RetrievalQA
-from langchain_community.llms import Ollama
+from langchain_openai import ChatOpenAI
 from langchain_community.vectorstores import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 import chromadb
@@ -24,7 +24,10 @@ def get_vectorstore():
 
 def get_qa_chain():
     vectorstore = get_vectorstore()
-    llm = Ollama(model=settings.model_name)
+    llm = ChatOpenAI(
+        model=settings.model_name,
+        api_key=settings.openai_api_key,
+    )
     return RetrievalQA.from_chain_type(
         llm=llm, chain_type="stuff", retriever=vectorstore.as_retriever()
     )
@@ -37,6 +40,11 @@ async def query_chatbot(
     if current_user.role != UserRole.EMPLOYEE:
         raise HTTPException(status_code=403, detail="Not enough permissions")
 
-    qa_chain = get_qa_chain()
-    response = qa_chain.run(request.query)
-    return QueryResponse(response=response)
+    try:
+        qa_chain = get_qa_chain()
+        response = qa_chain.run(request.query)
+        return QueryResponse(response=response)
+    except Exception as e:
+        return QueryResponse(
+            response="Sorry, I couldn't process your query due to an error. Please try again later."
+        )

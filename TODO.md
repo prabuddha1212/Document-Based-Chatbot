@@ -64,7 +64,9 @@
 - [ ] Pull llama3 model using Ollama
 - [x] Update backend/requirements.txt to include langchain-huggingface
 - [x] Modify backend/config.py to remove OpenAI API key dependency and add model configuration
-- [x] Update backend/routes/chatbot.py to use HuggingFaceEmbeddings and Ollama LLM
-- [ ] Install Python dependencies
-- [ ] Test the chatbot query functionality
-- [ ] Run the application locally to verify
+- [x] Update backend/routes/chatbot.py to use HuggingFaceEmbeddings and OpenRouter LLM
+- [x] Update backend/routes/documents.py to use HuggingFaceEmbeddings
+- [x] Add error handling for LLM API calls
+- [x] Install Python dependencies
+- [x] Test the chatbot query functionality
+- [x] Run the application locally to verify

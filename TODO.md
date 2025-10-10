@@ -58,3 +58,13 @@
 - Add logging for queries and uploads
 - Set up monitoring and alerts
 - Regular security audits
+
+## Task: Connect Chatbot Without Payment
+- [x] Install Ollama on the system using winget
+- [ ] Pull llama3 model using Ollama
+- [x] Update backend/requirements.txt to include langchain-huggingface
+- [x] Modify backend/config.py to remove OpenAI API key dependency and add model configuration
+- [x] Update backend/routes/chatbot.py to use HuggingFaceEmbeddings and Ollama LLM
+- [ ] Install Python dependencies
+- [ ] Test the chatbot query functionality
+- [ ] Run the application locally to verify

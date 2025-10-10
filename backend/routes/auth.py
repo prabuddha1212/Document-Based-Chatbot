@@ -1,15 +1,14 @@
 from datetime import datetime, timedelta
 from typing import Optional
+import hashlib
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
-from passlib.context import CryptContext
 from config import settings
 from models import Token, TokenData, User
 
 router = APIRouter()
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
@@ -17,7 +16,7 @@ def authenticate_user(username: str, password: str):
     user = settings.users.get(username)
     if not user:
         return False
-    if password != user["password"]:
+    if hashlib.sha256(password.encode()).hexdigest() != user["password"]:
         return False
     return User(username=username, password=user["password"], role=user["role"])
 

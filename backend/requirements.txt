@@ -6,6 +6,7 @@ chromadb
 langchain
 langchain-community
 langchain-openai
+langchain-huggingface
 python-jose[cryptography]
 passlib[bcrypt]
 python-multipart

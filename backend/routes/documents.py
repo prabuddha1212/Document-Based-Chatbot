@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Depends, File, UploadFile, HTTPException, status
-from backend.routes.auth import get_current_user
-from backend.models import User, UserRole
+from .auth import get_current_user
+from models import User, UserRole
 from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader, TextLoader
 import os
 import shutil
-from backend.config import settings
+from config import settings
 import chromadb
 from langchain_community.vectorstores import Chroma
-from langchain_openai import OpenAIEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 
 router = APIRouter()
 
@@ -17,7 +17,9 @@ def get_vectorstore():
     return Chroma(
         client=client,
         collection_name="documents",
-        embedding_function=OpenAIEmbeddings(openai_api_key=settings.openai_api_key),
+        embedding_function=HuggingFaceEmbeddings(
+            model_name="sentence-transformers/all-MiniLM-L6-v2"
+        ),
     )
 
 
